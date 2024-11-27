@@ -56,7 +56,7 @@ def recognize():
     results = []  # Lista para almacenar los resultados
     for face in faces:
         # Extraer coordenadas del rectángulo del rostro
-        x, y, w, h = face.left(), face.top(), face.width(), face.height()
+        x, y, w, h = face
 
         # Recortar el área del rostro para la predicción
         face_crop = frame[y:y + h, x:x + w]
