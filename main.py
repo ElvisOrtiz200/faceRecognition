@@ -2,10 +2,8 @@ from flask import Flask, request, jsonify
 import cv2
 import numpy as np
 from keras.models import load_model
-import os
 import sys
 from flask_cors import CORS
-import dlib
 import pymysql
 import base64
 
