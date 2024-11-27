@@ -5,7 +5,7 @@ from keras.models import load_model
 import os
 import sys
 from flask_cors import CORS
-import dlib
+
 import pymysql
 import base64
 
@@ -27,8 +27,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 model = load_model('NUEVONUEVONUEVO2222222222.h5')
 sys.stdout.reconfigure(encoding='utf-8')
 
-# Inicializar el detector de rostros
-detector = dlib.get_frontal_face_detector()
+
 
 
 @app.route('/asistencias', methods=['GET'])
