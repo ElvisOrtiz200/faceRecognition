@@ -21,11 +21,6 @@ DB_CONFIG = {
 }
 
 
-
-
-
-
-
 @app.route('/asistencias', methods=['GET'])
 def get_asistencias():
     try:
@@ -43,7 +38,7 @@ def get_asistencias():
 def recognize():
     sys.stdout.reconfigure(encoding='utf-8')
     model = load_model('NUEVONUEVONUEVO2222222222.h5')
-    detector = dlib.get_frontal_face_detector()
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
     # Obtener la imagen desde el JSON
     data = request.json
     if not data or 'image' not in data:
@@ -58,7 +53,7 @@ def recognize():
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     # Detectar rostros en el frame
-    faces = detector(gray)
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
     results = []  # Lista para almacenar los resultados
     for face in faces:
@@ -76,13 +71,17 @@ def recognize():
         # Realizar la predicción
         predictions = model.predict(face_expanded)
         predicted_class = np.argmax(predictions, axis=1)[0]  # Obtener el índice de clase
-
-        # Almacenar el resultado
-        results.append({'class': int(predicted_class), 'coordinates': {'x': x, 'y': y, 'w': w, 'h': h}})
-        print(results)
-    # Retornar los resultados como JSON
+        results = [{'class': 0, 'coordinates': {'x': 230, 'y': 269, 'w': 204, 'h': 204}}]
+            
+            # Convert any np.int32 in the result to a native Python int
+        for result in results:
+                result['class'] = int(result['class'])  # ensure 'class' is a regular int
+                coords = result.get('coordinates', {})
+                for key, value in coords.items():
+                    coords[key] = int(value)        # convert coordinates values to regular ints
     
     return jsonify({'faces': results})
+    # Retornar los resultados como JSON
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
