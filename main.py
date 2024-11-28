@@ -70,7 +70,7 @@ def recognize():
         # Realizar la predicción
         predictions = model.predict(face_expanded)
         predicted_class = np.argmax(predictions, axis=1)[0]  # Obtener el índice de clase
-        results = [{'class': 0, 'coordinates': {'x': 230, 'y': 269, 'w': 204, 'h': 204}}]
+        results = [{'class': int(predicted_class), 'coordinates': {'x': 230, 'y': 269, 'w': 204, 'h': 204}}]
             
             # Convert any np.int32 in the result to a native Python int
         for result in results:
